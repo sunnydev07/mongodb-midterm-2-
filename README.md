@@ -90,3 +90,33 @@ Below is a screenshot of the running fullstack dashboard (both scenarios active)
 ```
 
 **Both Scenario A2 and Scenario A4 are running.** When MongoDB is not available locally, the app automatically falls back to **Simulation / Preview Mode**, which lets you exercise every API task (insert, query, update, delete, replica-set operations) without a live database. To run against a live MongoDB instance, follow the steps in "Quick Start" above.
+
+
+---
+
+## Output Screenshots (Verification)
+
+All task outputs were captured live from the running fullstack dashboard
+(LIVE MongoDB + 3-node replica set `rs0`) and saved in [`Output_Screenshots/`](Output_Screenshots/).
+
+### Scenario A2 — Student Records
+- [00_A2_initial_after_reset.png](Output_Screenshots/00_A2_initial_after_reset.png)
+- [A2_Task1.png](Output_Screenshots/A2_Task1.png) — Insert Arun (_id: 101) with insertOne
+- [A2_Task2.png](Output_Screenshots/A2_Task2.png) — Duplicate _id: 101 insert (E11000)
+- [A2_Task3.png](Output_Screenshots/A2_Task3.png) — Insert remaining 5 students (102–106) via insertMany
+- [A2_Task4.png](Output_Screenshots/A2_Task4.png) — Equality Query: CSE department students
+- [A2_Task5.png](Output_Screenshots/A2_Task5.png) — Comparison Query: marks >= 75
+- [A2_Task6.png](Output_Screenshots/A2_Task6.png) — $in Operator: CSE or IT department
+- [A2_Task7.png](Output_Screenshots/A2_Task7.png) — $elemMatch: DBMS mark > 80
+- [A2_Task8.png](Output_Screenshots/A2_Task8.png) — Sort, Limit & Project: Top 3
+- [A2_RunAll_8_Tasks.png](Output_Screenshots/A2_RunAll_8_Tasks.png) — Run All 8 Tasks summary
+
+### Scenario A4 — Banking Replica Set
+- [00_A4_initial.png](Output_Screenshots/00_A4_initial.png)
+- [A4_Task1.png](Output_Screenshots/A4_Task1.png) — Initiate 3-node Replica Set rs0
+- [A4_Task2.png](Output_Screenshots/A4_Task2.png) — Identify PRIMARY and SECONDARY members
+- [A4_Task3.png](Output_Screenshots/A4_Task3.png) — Insert account with w: majority, j: true
+- [A4_Task4.png](Output_Screenshots/A4_Task4.png) — Read with secondaryPreferred preference
+- [A4_Task5.png](Output_Screenshots/A4_Task5.png) — Inspect local.oplog.rs entry
+- [A4_Task6.png](Output_Screenshots/A4_Task6.png) — Force rs.stepDown(60) and observe election
+- [A4_Task7.png](Output_Screenshots/A4_Task7.png) — Check rs.status() health and secondary lag
