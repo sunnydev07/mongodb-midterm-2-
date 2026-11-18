@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MongoDB Lab Practicals — Student Records &amp; Banking Replica Set</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-badge">MongoDB Lab</span>
+        <div>
+          <h1>Fullstack Practical Workbench</h1>
+          <p class="subtitle">Scenario A2: Student Records (collegeDB.students) &amp; Scenario A4: Banking Replica Set (bankDB.accounts)</p>
+        </div>
+      </div>
+      <div class="status-pills">
+        <span id="students-mode-pill" class="pill pill-sim">A2: Checking...</span>
+        <span id="banking-mode-pill" class="pill pill-sim">A4: Checking...</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="a2" role="tab" aria-selected="true">
+      Scenario A2: Student Records
+    </button>
+    <button class="tab" data-tab="a4" role="tab" aria-selected="false">
+      Scenario A4: Banking App (Replica Set)
+    </button>
+  </nav>
+
+  <main class="container">
+    <!-- SCENARIO A2: STUDENT RECORDS -->
+    <section id="panel-a2" class="panel active">
+      <div class="panel-header">
+        <div>
+          <h2>Scenario A2: Student Records (Insert, Query, Sort &amp; Project)</h2>
+          <p class="muted">Database: <code>collegeDB</code> &bull; Collection: <code>students</code> &bull; Unit 2 Syllabus</p>
+        </div>
+        <div class="header-actions">
+          <button id="a2-run-all" class="btn btn-primary">Run All 8 Tasks</button>
+          <button id="a2-reset" class="btn btn-ghost">Reset Collection</button>
+        </div>
+      </div>
+
+      <div class="grid-two">
+        <div class="card">
+          <h3>Lab Tasks (1–8)</h3>
+          <div class="task-list">
+            <button class="task-btn" data-a2-task="1">
+              <span class="task-num">1</span>
+              <span>Insert Arun (<code>_id: 101</code>) with <code>insertOne</code></span>
+            </button>
+            <button class="task-btn" data-a2-task="2">
+              <span class="task-num">2</span>
+              <span>Duplicate <code>_id: 101</code> insert (Trigger E11000)</span>
+            </button>
+            <button class="task-btn" data-a2-task="3">
+              <span class="task-num">3</span>
+              <span>Insert remaining 5 students (102–106) via <code>insertMany</code></span>
+            </button>
+            <button class="task-btn" data-a2-task="4">
+              <span class="task-num">4</span>
+              <span>Equality Query: List CSE department students</span>
+            </button>
+            <button class="task-btn" data-a2-task="5">
+              <span class="task-num">5</span>
+              <span>Comparison Query: Overall <code>marks &gt;= 75</code></span>
+            </button>
+            <button class="task-btn" data-a2-task="6">
+              <span class="task-num">6</span>
+              <span><code>$in</code> Operator: CSE or IT department</span>
+            </button>
+            <button class="task-btn" data-a2-task="7">
+              <span class="task-num">7</span>
+              <span><code>$elemMatch</code>: DBMS mark &gt; 80 (same array element)</span>
+            </button>
+            <button class="task-btn" data-a2-task="8">
+              <span class="task-num">8</span>
+              <span>Sort, Limit &amp; Project: Top 3 (name &amp; marks, hide <code>_id</code>)</span>
+            </button>
+          </div>
+
+          <hr class="divider" />
+          <h3>Add Custom Student Record</h3>
+          <form id="custom-student-form" class="mini-form">
+            <input type="number" id="stu-id" placeholder="_id (e.g. 107)" required />
+            <input type="text" id="stu-name" placeholder="Name" required />
+            <select id="stu-dept">
+              <option value="CSE">CSE</option>
+              <option value="IT">IT</option>
+              <option value="ECE">ECE</option>
+            </select>
+            <input type="number" id="stu-marks" placeholder="Overall %" min="0" max="100" required />
+            <input type="number" id="stu-dbms" placeholder="DBMS" min="0" max="100" required />
+            <input type="number" id="stu-maths" placeholder="Maths" min="0" max="100" required />
+            <button type="submit" class="btn btn-secondary">Insert Student</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Query Output &amp; Explanation</h3>
+          <div id="a2-query-box" class="code-box">Select a task on the left to execute and inspect the MongoDB query &amp; output.</div>
+          <div id="a2-note-box" class="note-box hidden"></div>
+          <pre id="a2-output" class="output-pre">{}</pre>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-header">
+          <h3>Live Collection: <code>collegeDB.students</code></h3>
+          <span id="a2-count" class="badge">0 documents</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>_id</th>
+                <th>Name</th>
+                <th>Dept</th>
+                <th>Marks (%)</th>
+                <th>DBMS</th>
+                <th>Maths</th>
+              </tr>
+            </thead>
+            <tbody id="a2-table-body">
+              <tr><td colspan="6" class="empty-cell">Collection is empty. Run Task 1 and Task 3 to populate.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCENARIO A4: BANKING APP REPLICA SET -->
+    <section id="panel-a4" class="panel">
+      <div class="panel-header">
+        <div>
+          <h2>Scenario A4: Banking App — Building &amp; Checking a Replica Set</h2>
+          <p class="muted">Database: <code>bankDB</code> &bull; Collection: <code>accounts</code> &bull; Replica Set: <code>rs0</code> (27017, 27018, 27019)</p>
+        </div>
+        <div class="header-actions">
+          <button id="a4-refresh" class="btn btn-ghost">Refresh Cluster State</button>
+        </div>
+      </div>
+
+      <div class="nodes-grid" id="a4-nodes-grid">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="grid-two">
+        <div class="card">
+          <h3>Replica Set Lab Tasks (1–7)</h3>
+          <div class="task-list">
+            <button class="task-btn" data-a4-task="1">
+              <span class="task-num">1</span>
+              <span>Initiate 3-node Replica Set <code>rs0</code> &amp; why replication</span>
+            </button>
+            <button class="task-btn" data-a4-task="2">
+              <span class="task-num">2</span>
+              <span>Identify <code>PRIMARY</code> and <code>SECONDARY</code> members</span>
+            </button>
+            <button class="task-btn" data-a4-task="3">
+              <span class="task-num">3</span>
+              <span>Insert account with <code>w: "majority", j: true</code></span>
+            </button>
+            <button class="task-btn" data-a4-task="4">
+              <span class="task-num">4</span>
+              <span>Read with <code>secondaryPreferred</code> preference</span>
+            </button>
+            <button class="task-btn" data-a4-task="5">
+              <span class="task-num">5</span>
+              <span>Inspect <code>local.oplog.rs</code> entry for insert</span>
+            </button>
+            <button class="task-btn" data-a4-task="6">
+              <span class="task-num">6</span>
+              <span>Force <code>rs.stepDown(60)</code> &amp; observe new election</span>
+            </button>
+            <button class="task-btn" data-a4-task="7">
+              <span class="task-num">7</span>
+              <span>Check <code>rs.status()</code> health &amp; secondary lag</span>
+            </button>
+          </div>
+
+          <hr class="divider" />
+          <h3>Insert Custom Bank Account (<code>w: "majority"</code>)</h3>
+          <form id="custom-account-form" class="mini-form">
+            <input type="number" id="acc-no" placeholder="accNo (e.g. 1002)" required />
+            <input type="text" id="acc-holder" placeholder="Holder Name" required />
+            <input type="number" id="acc-balance" placeholder="Balance (₹)" required />
+            <button type="submit" class="btn btn-secondary">Insert Account</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>Replica Set Output &amp; Analysis</h3>
+          <div id="a4-query-box" class="code-box">Select a task on the left to inspect replica set commands, write concerns, oplog, or failover elections.</div>
+          <div id="a4-note-box" class="note-box hidden"></div>
+          <pre id="a4-output" class="output-pre">{}</pre>
+          <div id="a4-readpref-wrap" class="hidden">
+            <h4>Read Preference Modes</h4>
+            <table>
+              <thead>
+                <tr><th>Mode</th><th>Meaning</th></tr>
+              </thead>
+              <tbody id="a4-readpref-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-header">
+          <h3>Collection: <code>bankDB.accounts</code></h3>
+          <span id="a4-count" class="badge">0 accounts</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>_id</th>
+                <th>Account No</th>
+                <th>Holder</th>
+                <th>Balance</th>
+              </tr>
+            </thead>
+            <tbody id="a4-table-body">
+              <tr><td colspan="4" class="empty-cell">No accounts yet. Run Task 3 to insert Kumar (accNo: 1001, balance: 5000).</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

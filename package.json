@@ -1,0 +1,25 @@
+{
+  "name": "mongodb-lab-fullstack",
+  "version": "1.0.0",
+  "description": "Fullstack JavaScript + MongoDB Lab Practical Project covering Scenario A2 (Student Records: collegeDB.students) and Scenario A4 (Banking App Replica Set: bankDB.accounts)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "mongodb",
+    "nodejs",
+    "express",
+    "replica-set",
+    "fullstack",
+    "lab-practical"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0"
+  }
+}
